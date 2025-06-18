@@ -37,8 +37,8 @@
     .icon-btn {
       width: 32px;
       height: 32px;
-      border: 1px solid #e5e5e5;
-      border-radius: 6px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-med);
       background: white;
       display: flex;
       align-items: center;
@@ -53,7 +53,7 @@
     
     .frame-info {
       padding: var(--space-padding-vertical-med) var(--space-padding-horizontal-med);
-      border-bottom: 1px solid #e5e5e5;
+      border-bottom: 1px solid var(--border);
     }
     
     .frame-status {
@@ -136,7 +136,7 @@
       width: 32px;
       height: 32px;
       border-radius: var(--radius-med);
-      border: 1px solid #e5e5e5;
+      border: 1px solid var(--border);
       cursor: pointer;
       position: relative;
       overflow: hidden;
@@ -159,11 +159,11 @@
     
     .color-value {
       background: var(--input-bg);
-      padding: 8px 12px;
+      padding: var(--input-padding);
       border-radius: var(--radius-med);
-      font-family: 'SF Mono', Monaco, monospace;
+      font-family: var(--input-font);
       color: var(--text-primary);
-      border: 1px solid #e5e5e5;
+      border: 1px solid var(--input-border);
       min-width: 88px;
       text-align: center;
     }
@@ -176,7 +176,7 @@
     
     .slider {
       flex: 1;
-      height: 20px;
+      height: var(--slider-height);
       border-radius: var(--radius-round);
       background: var(--input-bg);
       border: var(--input-border) 1px solid;
@@ -187,31 +187,31 @@
     
     .slider::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
+      width: var(--slider-height);
+      height: var(--slider-height);
       border-radius: 50%;
       background: var(--text-primary);
       cursor: pointer;
       border: 2px solid white;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: var(--input-shadow);
     }
     
     .slider::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
+      width: var(--slider-height);
+      height: var(--slider-height);
       border-radius: 50%;
       background: var(--text-primary);
       cursor: pointer;
       border: 2px solid white;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      box-shadow: var(--input-shadow);
     }
     
     .slider-value {
       background: #f5f5f5;
       padding: 6px 10px;
-      border-radius: 6px;
+      border-radius: var(--radius-med);
       color: var(--text-primary);
-      border: 1px solid #e5e5e5;
+      border: 1px solid var(--input-border);
       min-width: 60px;
       text-align: center;
     }
@@ -230,7 +230,7 @@
     
     .clear-btn {
       background: #f5f5f5;
-      border: 1px solid #e5e5e5;
+      border: 1px solid var(--border);
       padding: 2px 16px;
       height: 32px;
       border-radius: var(--radius-round);
@@ -308,18 +308,22 @@
 
     :root {
       --radius-round: 99px;
-      --button-primary-border: #282333;
-      --button-primary-bg: #38363D;
-      --button-primary-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.35), 0px 3px 6px 0px rgba(0, 0, 0, 0.25), 0px 2px 1px 0px rgba(255, 255, 255, 0.25) inset;
       --radius-med: 6px;
+      --border: #e5e5e5;
       --input-border: #D4D4D5;
       --input-bg: #ECECED;
+      --input-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      --input-padding: 8px 12px;
+      --input-font: 'SF Mono', Monaco, monospace;
+      --slider-fill: #68656f;
+      --slider-height: 20px;
       --space-padding-vertical-med: 16px;
       --space-padding-vertical-lrg: 32px;
       --space-padding-horizontal-med: 24px;
       --space-gap-med: 12px;
       --font-size-base: 14px;
       --text-primary: #444;
+      --text-secondary: #999;
       --badge-default-bg: #F2F2F2;
       --badge-default-text: #444;
       --badge-error-bg: #FDEAEA;
@@ -328,8 +332,9 @@
       --badge-ready-text: #234B2B;
       --badge-active-bg: #BFDFFF;
       --badge-active-text: #2A4B7C;
-      --border: #e5e5e5;
-      --slider-fill: #68656f;
+      --button-primary-border: #282333;
+      --button-primary-bg: #38363D;
+      --button-primary-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.35), 0px 3px 6px 0px rgba(0, 0, 0, 0.25), 0px 2px 1px 0px rgba(255, 255, 255, 0.25) inset;
     }
 
     input[type="color"],
