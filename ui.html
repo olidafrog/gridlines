@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #ffffff;
+      color: var(--text-primary);
+      font-size: var(--font-size-base);
+      font-weight: 500;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: var(--space-padding-vertical-med) var(--space-padding-horizontal-med);
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .title {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 8px;
+    }
+    
+    .icon-btn {
+      width: 32px;
+      height: 32px;
+      border: 1px solid #e5e5e5;
+      border-radius: 6px;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      color: var(--text-primary);
+    }
+    
+    .icon-btn:hover {
+      background: #f9f9f9;
+    }
+    
+    .frame-info {
+      padding: var(--space-padding-vertical-med) var(--space-padding-horizontal-med);
+      border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .frame-status {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    
+    .frame-badge {
+      border-radius: var(--radius-round);
+      font-weight: 400;
+      padding: 4px 12px;
+      background: var(--badge-default-bg);
+      color: var(--badge-default-text);
+      transition: background 0.2s, color 0.2s;
+    }
+    
+    .frame-badge.error {
+      background: var(--badge-error-bg);
+      color: var(--badge-error-text);
+    }
+    
+    .frame-badge.ready {
+      background: var(--badge-ready-bg);
+      color: var(--badge-ready-text);
+    }
+    
+    .frame-badge.active {
+      background: var(--badge-active-bg);
+      color: var(--badge-active-text);
+    }
+    
+    .frame-text {
+      color: #999;
+    }
+    
+  
+    .section-wrapper {
+      padding: var(--space-padding-vertical-med) var(--space-padding-horizontal-med);
+      display:flex;
+      flex-direction: column;
+    }
+
+    .color-settings {
+      gap:var(--space-gap-med);
+    }
+
+    .stroke-settings {
+      gap: 24px;
+      padding-bottom: var(--space-padding-vertical-lrg);
+    }
+    
+    .label {
+      color: var(--text-primary);
+      margin-bottom: 8px;
+      display: block;
+    }
+    
+    .color-row {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+    }
+    
+    .color-label {
+      color: var(--text-primary);
+      text-align: left;
+    }
+    
+    .color-input-group {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .color-swatch {
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-med);
+      border: 1px solid #e5e5e5;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .color-swatch input[type="color"] {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+    }
+    
+    .color-display {
+      width: 100%;
+      height: 100%;
+      border-radius: 5px;
+    }
+    
+    .color-value {
+      background: var(--input-bg);
+      padding: 8px 12px;
+      border-radius: var(--radius-med);
+      font-family: 'SF Mono', Monaco, monospace;
+      color: var(--text-primary);
+      border: 1px solid #e5e5e5;
+      min-width: 88px;
+      text-align: center;
+    }
+    
+    .slider-group {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+    
+    .slider {
+      flex: 1;
+      height: 20px;
+      border-radius: var(--radius-round);
+      background: var(--input-bg);
+      border: var(--input-border) 1px solid;
+      outline: none;
+      -webkit-appearance: none;
+      position: relative;
+    }
+    
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .slider::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .slider-value {
+      background: #f5f5f5;
+      padding: 6px 10px;
+      border-radius: 6px;
+      color: var(--text-primary);
+      border: 1px solid #e5e5e5;
+      min-width: 60px;
+      text-align: center;
+    }
+    
+    .actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px 0px;
+      border-top: 1px solid var(--border);
+    }
+
+    .button-wrapper {
+      padding: 16px 24px 24px;
+    }
+    
+    .clear-btn {
+      background: #f5f5f5;
+      border: 1px solid #e5e5e5;
+      padding: 2px 16px;
+      height: 32px;
+      border-radius: var(--radius-round);
+      color: var(--text-primary);
+      cursor: pointer;
+    }
+    
+    .clear-btn:hover {
+      background: #eeeeee;
+    }
+    
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .toggle-label {
+      color: var(--text-primary);
+    }
+    
+    .toggle {
+      position: relative;
+      width: 48px;
+      height: 28px;
+      background: var(--text-primary);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .toggle.off {
+      background: #e5e5e5;
+    }
+    
+    .toggle-thumb {
+      position: absolute;
+      top: 2px;
+      left: 2px;
+      width: 24px;
+      height: 24px;
+      background: white;
+      border-radius: 50%;
+      transition: transform 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+    
+    .toggle.off .toggle-thumb {
+      transform: translateX(0);
+    }
+    
+    .toggle:not(.off) .toggle-thumb {
+      transform: translateX(20px);
+    }
+    
+    .create-btn {
+      border-radius: var(--radius-round);
+      border: 1px solid var(--button-primary-border);
+      background: var(--button-primary-bg);
+      box-shadow: var(--button-primary-shadow);
+      color: white;
+      width: 100%;
+      padding: 16px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    
+    .create-btn:hover {
+      background: #222;
+    }
+    
+    .create-btn:active {
+      background: #111;
+    }
+
+    :root {
+      --radius-round: 99px;
+      --button-primary-border: #282333;
+      --button-primary-bg: #38363D;
+      --button-primary-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.35), 0px 3px 6px 0px rgba(0, 0, 0, 0.25), 0px 2px 1px 0px rgba(255, 255, 255, 0.25) inset;
+      --radius-med: 6px;
+      --input-border: #D4D4D5;
+      --input-bg: #ECECED;
+      --space-padding-vertical-med: 16px;
+      --space-padding-vertical-lrg: 32px;
+      --space-padding-horizontal-med: 24px;
+      --space-gap-med: 12px;
+      --font-size-base: 14px;
+      --text-primary: #444;
+      --badge-default-bg: #F2F2F2;
+      --badge-default-text: #444;
+      --badge-error-bg: #FDEAEA;
+      --badge-error-text: #C94A4A;
+      --badge-ready-bg: #C8F7DF;
+      --badge-ready-text: #234B2B;
+      --badge-active-bg: #BFDFFF;
+      --badge-active-text: #2A4B7C;
+      --border: #e5e5e5;
+      --slider-fill: #68656f;
+    }
+
+    input[type="color"],
+    input[type="text"],
+    .color-value,
+    .slider-value {
+      border-radius: var(--radius-med);
+      border: 1px solid var(--input-border);
+      background: var(--input-bg);
+    }
+
+    .label,
+    .color-label,
+    .color-value,
+    .slider-value,
+    .toggle-label,
+    .form-group,
+    input,
+    button,
+    .header-actions,
+    .frame-info,
+    .frame-status,
+    .frame-text {
+      font-size: var(--font-size-base) !important;
+    }
+
+    input[type="range"] {
+      appearance: none;
+      -webkit-appearance: none;
+      width: 100%;
+      height: 20px;
+      border-radius: var(--radius-round);
+      background: linear-gradient(
+        to right,
+        var(--slider-fill) 0%,
+        var(--slider-fill) var(--value-percent, 50%),
+        var(--input-bg) var(--value-percent, 50%),
+        var(--input-bg) 100%
+      );
+      outline: none;
+      border: var(--input-border) 1px solid;
+      transition: background 0.2s;
+    }
+    input[type="range"]::-webkit-slider-runnable-track {
+      height: 20px;
+      border-radius: var(--radius-round);
+      background: transparent;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    input[type="range"]::-moz-range-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    input[type="range"]::-ms-thumb {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: var(--text-primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+      position: relative;
+      z-index: 1;
+    }
+    input[type="range"]::-moz-range-progress {
+      background-color: var(--slider-fill);
+      height: 20px;
+      border-radius: var(--radius-round);
+    }
+    input[type="range"]::-moz-range-track {
+      background-color: var(--input-bg);
+      height: 20px;
+      border-radius: var(--radius-round);
+    }
+    input[type="range"]::-ms-fill-lower {
+      background: var(--slider-fill);
+      border-radius: var(--radius-round);
+    }
+    input[type="range"]::-ms-fill-upper {
+      background: var(--input-bg);
+      border-radius: var(--radius-round);
+    }
+    input[type="range"]:focus {
+      outline: none;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="title">GridLines</div>
+    <div class="header-actions">
+      <div class="icon-btn" id="menuBtn" title="Menu">☰</div>
+      <div class="icon-btn" id="infoBtn" title="Info">?</div>
+    </div>
+  </div>
+  
+  <div class="frame-info">
+    <div class="frame-status">
+      <div class="frame-badge" id="frameBadge">No frame</div>
+      <div class="frame-text" id="frameText">Select a frame to start</div>
+    </div>
+  </div>
+  
+
+    <div class="section-wrapper color-settings">
+      <div class="color-row">
+        <div class="color-label">Row color</div>
+        <div class="color-input-group">
+          <div class="color-swatch">
+            <input type="color" id="rowColor" value="#FD8686">
+            <div class="color-display" id="rowColorDisplay" style="background: #FD8686;"></div>
+          </div>
+          <div class="color-value" id="rowColorValue">#FD8686</div>
+        </div>
+      </div>
+      <div class="color-row">
+        <div class="color-label">Column color</div>
+        <div class="color-input-group">
+          <div class="color-swatch">
+            <input type="color" id="columnColor" value="#86D0FD">
+            <div class="color-display" id="columnColorDisplay" style="background: #86D0FD;"></div>
+          </div>
+          <div class="color-value" id="columnColorValue">#86D0FD</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="section-wrapper stroke-settings">
+      <div class="form-group">
+        <label class="label">Stroke width</label>
+        <div class="slider-group">
+          <input type="range" class="slider" id="strokeWidth" min="0.5" max="5" step="0.5" value="0.5">
+          <div class="slider-value" id="strokeWidthValue">0.5px</div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label class="label">Opacity</label>
+        <div class="slider-group">
+          <input type="range" class="slider" id="opacity" min="0.1" max="1" step="0.1" value="0.4">
+          <div class="slider-value" id="opacityValue">40%</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="actions">
+      <button class="clear-btn" id="clearGuides">Clear grid</button>
+      <div class="toggle-container">
+        <span class="toggle-label">Show grid</span>
+        <div class="toggle" id="showToggle">
+          <div class="toggle-thumb"></div>
+        </div>
+      </div>
+    </div>
+    <div class="button-wrapper">
+      <button class="create-btn" id="convert">Create Grid-lines</button>
+    </div>
+
+  <script>
+    // Update range value displays
+    const strokeWidthInput = document.getElementById('strokeWidth');
+    const strokeWidthValue = document.getElementById('strokeWidthValue');
+    const opacityInput = document.getElementById('opacity');
+    const opacityValue = document.getElementById('opacityValue');
+    
+    // Update color displays
+    const rowColorInput = document.getElementById('rowColor');
+    const rowColorDisplay = document.getElementById('rowColorDisplay');
+    const rowColorValue = document.getElementById('rowColorValue');
+    const columnColorInput = document.getElementById('columnColor');
+    const columnColorDisplay = document.getElementById('columnColorDisplay');
+    const columnColorValue = document.getElementById('columnColorValue');
+    
+    // Toggle state
+    let guidesVisible = true;
+    const showToggle = document.getElementById('showToggle');
+    
+    // Event listeners for sliders
+    function updateSliderGradient(slider) {
+      const percent = 100 * (slider.value - slider.min) / (slider.max - slider.min);
+      slider.style.setProperty('--value-percent', percent + '%');
+    }
+    
+    strokeWidthInput.addEventListener('input', () => {
+      strokeWidthValue.textContent = strokeWidthInput.value + 'px';
+      updateSliderGradient(strokeWidthInput);
+    });
+    
+    opacityInput.addEventListener('input', () => {
+      opacityValue.textContent = Math.round(opacityInput.value * 100) + '%';
+      updateSliderGradient(opacityInput);
+    });
+    
+    // Event listeners for color inputs
+    rowColorInput.addEventListener('input', () => {
+      const color = rowColorInput.value;
+      rowColorDisplay.style.background = color;
+      rowColorValue.textContent = color.toUpperCase();
+    });
+    
+    columnColorInput.addEventListener('input', () => {
+      const color = columnColorInput.value;
+      columnColorDisplay.style.background = color;
+      columnColorValue.textContent = color.toUpperCase();
+    });
+    
+    // Toggle functionality
+    showToggle.addEventListener('click', () => {
+      guidesVisible = !guidesVisible;
+      updateToggleState();
+      
+      parent.postMessage({
+        pluginMessage: {
+          type: 'toggle-guides'
+        }
+      }, '*');
+    });
+    
+    function updateToggleState() {
+      if (guidesVisible) {
+        showToggle.classList.remove('off');
+      } else {
+        showToggle.classList.add('off');
+      }
+    }
+    
+    // Listen for messages from plugin code
+    window.addEventListener('message', (event) => {
+      const message = event.data.pluginMessage;
+      if (message && message.type === 'load-existing-settings') {
+        loadSettings(message.settings, message.frameName, message.hasGuides, message.hasLayoutGrids);
+      }
+    });
+    
+    // Function to load settings into UI
+    function loadSettings(settings, frameName, hasGuides, hasLayoutGrids) {
+      // Update colors
+      rowColorInput.value = settings.rowColor;
+      rowColorDisplay.style.background = settings.rowColor;
+      rowColorValue.textContent = settings.rowColor.toUpperCase();
+      
+      columnColorInput.value = settings.columnColor;
+      columnColorDisplay.style.background = settings.columnColor;
+      columnColorValue.textContent = settings.columnColor.toUpperCase();
+      
+      // Update sliders
+      strokeWidthInput.value = settings.strokeWidth;
+      strokeWidthValue.textContent = settings.strokeWidth + 'px';
+      
+      opacityInput.value = settings.opacity;
+      opacityValue.textContent = Math.round(settings.opacity * 100) + '%';
+      
+      // Update frame status
+      updateFrameStatus(frameName, hasGuides, hasLayoutGrids);
+      
+      console.log('Loaded settings into UI:', settings, 'Frame:', frameName);
+    }
+    
+    function updateFrameStatus(frameName, hasGuides, hasLayoutGrids) {
+      const frameBadge = document.getElementById('frameBadge');
+      const frameText = document.getElementById('frameText');
+      
+      // Remove all badge state classes
+      frameBadge.classList.remove('error', 'ready', 'active');
+
+      if (!frameName) {
+        frameBadge.textContent = 'No frame';
+        frameBadge.classList.remove('error', 'ready', 'active');
+        frameText.textContent = 'Select a frame to start';
+      } else if (!hasLayoutGrids) {
+        frameBadge.textContent = frameName;
+        frameBadge.classList.add('error');
+        frameText.textContent = 'No layout guides';
+      } else if (hasLayoutGrids && !hasGuides) {
+        frameBadge.textContent = frameName;
+        frameBadge.classList.add('ready');
+        frameText.textContent = 'Ready for guide-lines';
+      } else if (hasGuides) {
+        frameBadge.textContent = frameName;
+        frameBadge.classList.add('active');
+        frameText.textContent = 'Guide-lines enabled';
+      }
+    }
+    
+    // Button handlers
+    document.getElementById('convert').addEventListener('click', () => {
+      const columnColor = columnColorInput.value;
+      const rowColor = rowColorInput.value;
+      const strokeWidth = parseFloat(strokeWidthInput.value);
+      const opacity = parseFloat(opacityInput.value);
+      
+      parent.postMessage({
+        pluginMessage: {
+          type: 'convert-to-strokes',
+          columnColor: columnColor,
+          rowColor: rowColor,
+          strokeWidth: strokeWidth,
+          opacity: opacity
+        }
+      }, '*');
+    });
+    
+    document.getElementById('clearGuides').addEventListener('click', () => {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'clear-guides'
+        }
+      }, '*');
+    });
+    
+    document.getElementById('menuBtn').addEventListener('click', () => {
+      // Could open a menu or settings panel
+      console.log('Menu clicked');
+    });
+    
+    document.getElementById('infoBtn').addEventListener('click', () => {
+      parent.postMessage({
+        pluginMessage: {
+          type: 'cancel'
+        }
+      }, '*');
+    });
+    
+    // Initialize toggle state
+    updateToggleState();
+    
+    // Initialize slider gradients on load
+    updateSliderGradient(strokeWidthInput);
+    updateSliderGradient(opacityInput);
+    
+    // Tell the plugin that the UI has loaded
+    parent.postMessage({
+      pluginMessage: {
+        type: 'ui-loaded'
+      }
+    }, '*');
+  </script>
+</body>
+</html>

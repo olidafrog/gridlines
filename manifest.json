@@ -1,0 +1,35 @@
+{
+  "name": "Grid Lines",
+  "id": "1515667643011134632",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": [
+    "figma"
+  ],
+  "networkAccess": {
+    "allowedDomains": ["none"]
+  },
+  "menu": [
+    {
+      "name": "Open Plugin",
+      "command": "open-plugin"
+    },
+    {
+      "name": "Toggle Grid Lines",
+      "command": "toggle-guides"
+    }
+  ],
+  "relaunchButtons": [
+    {
+      "command": "toggle-guides-context",
+      "name": "Toggle Grid lines"
+    },
+    {
+      "command": "edit-guides",
+      "name": "Edit Grid lines"
+    }
+  ]
+}
