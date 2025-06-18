@@ -365,70 +365,30 @@
       appearance: none;
       -webkit-appearance: none;
       width: 100%;
-      height: 20px;
+      height: var(--slider-height);
       border-radius: var(--radius-round);
-      background: linear-gradient(
-        to right,
-        var(--slider-fill) 0%,
-        var(--slider-fill) var(--value-percent, 50%),
-        var(--input-bg) var(--value-percent, 50%),
-        var(--input-bg) 100%
-      );
+      background: var(--input-bg);
       outline: none;
       border: var(--input-border) 1px solid;
       transition: background 0.2s;
     }
     input[type="range"]::-webkit-slider-runnable-track {
-      height: 20px;
+      height: var(--slider-height);
       border-radius: var(--radius-round);
-      background: transparent;
-    }
-    input[type="range"]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--text-primary);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
-    }
-    input[type="range"]::-moz-range-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--text-primary);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
-    }
-    input[type="range"]::-ms-thumb {
-      width: 20px;
-      height: 20px;
-      border-radius: 50%;
-      background: var(--text-primary);
-      cursor: pointer;
-      border: 2px solid white;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
-      position: relative;
-      z-index: 1;
+      background: var(--input-bg);
     }
     input[type="range"]::-moz-range-progress {
-      background-color: var(--slider-fill);
-      height: 20px;
+      background-color: var(--input-bg);
+      height: var(--slider-height);
       border-radius: var(--radius-round);
     }
     input[type="range"]::-moz-range-track {
       background-color: var(--input-bg);
-      height: 20px;
+      height: var(--slider-height);
       border-radius: var(--radius-round);
     }
     input[type="range"]::-ms-fill-lower {
-      background: var(--slider-fill);
+      background: var(--input-bg);
       border-radius: var(--radius-round);
     }
     input[type="range"]::-ms-fill-upper {
@@ -532,19 +492,12 @@
     const showToggle = document.getElementById('showToggle');
     
     // Event listeners for sliders
-    function updateSliderGradient(slider) {
-      const percent = 100 * (slider.value - slider.min) / (slider.max - slider.min);
-      slider.style.setProperty('--value-percent', percent + '%');
-    }
-    
     strokeWidthInput.addEventListener('input', () => {
       strokeWidthValue.textContent = strokeWidthInput.value + 'px';
-      updateSliderGradient(strokeWidthInput);
     });
     
     opacityInput.addEventListener('input', () => {
       opacityValue.textContent = Math.round(opacityInput.value * 100) + '%';
-      updateSliderGradient(opacityInput);
     });
     
     // Event listeners for color inputs
@@ -679,10 +632,6 @@
     
     // Initialize toggle state
     updateToggleState();
-    
-    // Initialize slider gradients on load
-    updateSliderGradient(strokeWidthInput);
-    updateSliderGradient(opacityInput);
     
     // Tell the plugin that the UI has loaded
     parent.postMessage({

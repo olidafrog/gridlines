@@ -13,7 +13,7 @@ if (figma.command === 'toggle-guides') {
   openUIWithExistingSettings();
 } else {
   // Open UI for main plugin functionality
-  figma.showUI(__html__, { width: 355, height: 535 });
+  figma.showUI(__html__, { width: 355, height: 568 });
 }
 
 // Handle messages from UI
